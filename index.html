@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+  <script type="text/babel">
+    function Btn(props) {
+      {
+        /* props로 가져올 수도 있고 
+        ES6의 방식을 이용해 각각의 text, fontSize props 각각을 들고 올수도 있다.
+        예시 : ({text, fontSize =12})*/
+      }
+      console.log(props.text);
+      return (
+        <button
+          onClick={props.onClick}
+          style={{
+            backgroundColor: "tomato",
+            color: "white",
+            padding: "10px 20x",
+            border: 0,
+            borderRadius: 10,
+            fontSize: props.fontSize,
+            margin: 12,
+          }}
+        >
+          {props.text}
+        </button>
+      );
+    }
+
+    const MemorizedBtn = React.memo(Btn);
+
+    Btn.propTypes = {
+      text: PropTypes.string.isRequired,
+      fontSize: PropTypes.number,
+    };
+    {
+      /*props들 자료형 지정가능. 자료형을 다르게 사용 했을 경우 error로 알려줌.*/
+    }
+
+    function App() {
+      const [value, setValue] = React.useState("Btn Click");
+      const changeValue = () => setValue("Revert Value");
+      return (
+        <div>
+          <Btn text={value} fontSize={18} onClick={changeValue} />
+          {/*여기서의 onClick이 원래 말하던 EventListener가 아니라 props이름일
+          뿐이므로 다른 이름으로 대체 해도된다*/}
+          <Btn text="second button" fontSize={25} />
+        </div>
+      );
+    }
+
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
